@@ -5,7 +5,7 @@ import logic.Square;
 public interface ITrans {
     Square[][] getListSquare();
 
-    void play();
-    void target();
+    void play(int x, int y);
+    void target(int x, int y);
     void restart();
 }
