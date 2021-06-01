@@ -41,23 +41,10 @@ public class Board extends JPanel {
     private int allCells;
     private final JLabel status;
 
-    private Square[][] square;
-
     public Board(JLabel status) {
 
         this.status = status;
         initBoard();
-
-        for (int i = 0; i < N_MINES; i++) {
-            int x = generateRange(N_ROWS);
-            int y = generateRange(N_COLS);
-            // nếu có mìn rồi thì đặt ngẫu nhiên vào ô khác
-            while (square[x][y].isHasMine()) {
-              x = generateRange(N_ROWS);
-              y = generateRange(N_COLS);
-            }
-            square[x][y].setHasMine(true);
-        } 
     }
 
     private void initBoard() {
@@ -72,11 +59,6 @@ public class Board extends JPanel {
 
         addMouseListener(new MinesAdapter());
         newGame();
-    }
-
-    private int generateRange(int range) {
-        Random rd = new Random();
-        return rd.nextInt(range);
     }
 
     private void newGame() {
