@@ -20,7 +20,7 @@ public class Square {
         this.isOpen = isOpen;
     }
 
-    public boolean hasMine() {
+    public boolean isHasMine() {
         return hasMine;
     }
 
