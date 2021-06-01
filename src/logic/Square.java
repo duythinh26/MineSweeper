@@ -31,7 +31,7 @@ public class Square {
     public boolean isTarget() {
         return isTarget;
     }
-
+    
     public void setTarget(boolean isTarget) {
         this.isTarget = isTarget;
     }
