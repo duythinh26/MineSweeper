@@ -24,7 +24,7 @@ public class Square {
         return hasMine;
     }
 
-    public void setMine(boolean hasMine) {
+    public void setHasMine(boolean hasMine) {
         this.hasMine = hasMine;
     }
 
