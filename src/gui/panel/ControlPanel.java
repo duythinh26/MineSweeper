@@ -37,7 +37,7 @@ public class ControlPanel extends JPanel implements ICommon {
  
     lbNumSquareClosed = new JLabel();
     lbNumSquareClosed.setFont(font);
-    lbNumSquareClosed.setText("Number of closed cells: " + Board.NUM_ROWS*Board.NUM_COLUMNS);
+    lbNumSquareClosed.setText("Number of closed cells: " + Board.N_ROWS * Board.N_COLS);
     lbNumSquareClosed.setBounds(10, 10, 250, 40);
     add(lbNumSquareClosed);
  
@@ -59,7 +59,7 @@ public class ControlPanel extends JPanel implements ICommon {
       @Override
       public void actionPerformed(ActionEvent e) {
         listener.restart();
-        lbNumSquareClosed.setText("Number of closed cells: " + Board.NUM_ROWS*Board.NUM_COLUMNS);
+        lbNumSquareClosed.setText("Number of closed cells: " + Board.N_ROWS*Board.N_COLS);
         lbNotify.setText("");
       }
     });
@@ -71,7 +71,7 @@ public class ControlPanel extends JPanel implements ICommon {
  
   public void updateStatus(int numSquareClosed) {
     lbNumSquareClosed.setText("Number of closed cells: " + numSquareClosed);
-    if (numSquareClosed == Board.NUM_MINES) {
+    if (numSquareClosed == Board.N_MINES) {
       lbNotify.setText("YOU WIN");
       lbNotify.setForeground(Color.blue);
     } else if (numSquareClosed == 0) {
