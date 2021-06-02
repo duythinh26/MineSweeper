@@ -26,7 +26,7 @@ public class Board extends JPanel {
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    private final int N_MINES = 40;
+    public static final int N_MINES = 40;
     public static final int N_ROWS = 16;
     public static final int N_COLS = 16;
 
