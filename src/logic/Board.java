@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Board extends JPanel implements ActionListener{
@@ -29,8 +30,8 @@ public class Board extends JPanel implements ActionListener{
     private final int DRAW_WRONG_MARK = 12;
 
     public static final int N_MINES = 100;
-    public static final int N_ROWS = 40;
-    public static final int N_COLS = 40;
+    public static final int N_ROWS = 30;
+    public static final int N_COLS = 30;
 
     private final int BOARD_WIDTH = N_COLS * CELL_SIZE + 1;
     private final int BOARD_HEIGHT = N_ROWS * CELL_SIZE + 1;
@@ -396,6 +397,30 @@ public class Board extends JPanel implements ActionListener{
 
     //show rules features
     private void showRules() {
-
+        JOptionPane.showMessageDialog(null, "GAME RULES: \n" + "\n"
+        			+ "The goal is to sweep all the “mines” or bombs from a 16x16 mine field."
+        			+ " There are 40 in total. \n" + 
+        			"\n" + 
+        			"To obtain information on where the bomb is, left click to uncover the cells." +"\n" 
+        			+ " A cell with a number reveals the number of neighboring cells containing bombs. "+"\n" 
+        			+ "A cell that does not contain a bomb in its direct neighbor cells (the 8 most direct ones surrounding it)"+"\n" 
+        			+ " is an empty cell,"
+        			+ " and when clicked on, will reveal the entire region of all empty cells until a cell is no longer empty."+"\n" 
+        			+ " Use this information plus guess work to avoid the bombs. \n" + 
+        			"To mark a cell you think is a bomb, right-click on the cell and a flag will appear."+"\n" 
+        			+ "You have 40 flags in total, one for each bomb. "+"\n" 
+        			+ "You will be notified when you have used up all your 40 flags with a count of "+"\n" 
+        			+ "how many flags you have left in the lower left corner. \n" + 
+        			"The game is won when the user has successfully identified all the cells that"+"\n" 
+        			+ " contain bombs and the game is lost when the player clicks on a cell "+"\n" 
+        			+ "which contains a bomb. \n" +
+        			"The user can “unflag” a cell by right clicking the cell again."+"\n" 
+        			+ "The user can undo any number of moves for any type of move, which includes"+"\n" 
+        			+ " clicking on flagged cells, empty cells, and neighbor cells."+"\n" +
+        			"To start a new game, the user just clicks anywhere on the board. "+"\n" 
+        			+ "The user can stop the game at any point by exiting the game. "+"\n" 
+        			+ "The game will automatically be saved. When re-loaded, "+"\n" 
+        			+ "the user will have the option of starting a new game or "+"\n" 
+        			+ "starting from the most recent version of the game when exited. ");
     }
 }
