@@ -4,12 +4,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements ActionListener{
 
     private final int NUM_IMAGES = 13;
     private final int CELL_SIZE = 15;
@@ -26,9 +28,9 @@ public class Board extends JPanel {
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    public static final int N_MINES = 40;
-    public static final int N_ROWS = 16;
-    public static final int N_COLS = 16;
+    public static final int N_MINES = 100;
+    public static final int N_ROWS = 40;
+    public static final int N_COLS = 40;
 
     private final int BOARD_WIDTH = N_COLS * CELL_SIZE + 1;
     private final int BOARD_HEIGHT = N_ROWS * CELL_SIZE + 1;
@@ -370,5 +372,30 @@ public class Board extends JPanel {
                 }
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        try {
+            if (e.getActionCommand().equals("Rules")) {
+            	showRules();
+            }
+            else if (e.getActionCommand().equals("Undo")) {
+                this.undo();
+            }
+        }
+        catch (Exception oe) {
+            oe.printStackTrace();
+        }
+    }
+    
+    //undo features
+    private void undo() {
+        
+    }
+
+    //show rules features
+    private void showRules() {
+
     }
 }
