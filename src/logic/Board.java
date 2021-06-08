@@ -62,6 +62,7 @@ public class Board extends JPanel implements ActionListener{
 
         addMouseListener(new MinesAdapter());
         newGame();
+        showRules();
     }
 
     private void newGame() {
@@ -398,8 +399,8 @@ public class Board extends JPanel implements ActionListener{
     //show rules features
     private void showRules() {
         JOptionPane.showMessageDialog(null, "GAME RULES: \n" + "\n"
-        			+ "The goal is to sweep all the “mines” or bombs from a 16x16 mine field."
-        			+ " There are 40 in total. \n" + 
+        			+ "The goal is to sweep all the “mines” or bombs from a 30x30 mine field."
+        			+ " There are 100 in total. \n" + 
         			"\n" + 
         			"To obtain information on where the bomb is, left click to uncover the cells." +"\n" 
         			+ " A cell with a number reveals the number of neighboring cells containing bombs. "+"\n" 
@@ -416,11 +417,6 @@ public class Board extends JPanel implements ActionListener{
         			+ "which contains a bomb. \n" +
         			"The user can “unflag” a cell by right clicking the cell again."+"\n" 
         			+ "The user can undo any number of moves for any type of move, which includes"+"\n" 
-        			+ " clicking on flagged cells, empty cells, and neighbor cells."+"\n" +
-        			"To start a new game, the user just clicks anywhere on the board. "+"\n" 
-        			+ "The user can stop the game at any point by exiting the game. "+"\n" 
-        			+ "The game will automatically be saved. When re-loaded, "+"\n" 
-        			+ "the user will have the option of starting a new game or "+"\n" 
-        			+ "starting from the most recent version of the game when exited. ");
+        			+ " clicking on flagged cells, empty cells, and neighbor cells."+"\n");
     }
 }
