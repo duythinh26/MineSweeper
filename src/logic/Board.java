@@ -7,10 +7,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import java.util.Stack;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import gui.CellType;
 
 public class Board extends JPanel implements ActionListener{
 
@@ -43,6 +47,9 @@ public class Board extends JPanel implements ActionListener{
 
     private int allCells;
     private final JLabel status;
+
+    protected static Cell[][] gameBoard;
+    private Stack step = new Stack();
 
     public Board(JLabel status) {
 
@@ -317,6 +324,7 @@ public class Board extends JPanel implements ActionListener{
 
                 newGame();
                 repaint();
+                step.clear();
             }
 
             if ((x < N_COLS * CELL_SIZE) && (y < N_ROWS * CELL_SIZE)) {
@@ -393,7 +401,50 @@ public class Board extends JPanel implements ActionListener{
     
     //undo features
     private void undo() {
-        
+        if (!step.empty()) {
+            int i = (Integer) step.pop();
+
+            Cell cell = gameBoard[i / N_COLS][i % N_ROWS];
+
+            if (cell.isCoveredCell()) {
+                cell.changeWhetherMarked();
+                if (cell.isMarkedCell()) {
+                    minesLeft = minesLeft - 1;
+                }
+                else {
+                    minesLeft = minesLeft + 1;
+                    if (!inGame) {
+                        inGame = true;
+                    }
+                }
+            }
+
+            else if (cell.getCellType() == CellType.Bomb) {
+                cell.isCovered = true;
+                inGame = true;
+            }
+
+            else if (cell.getCellType() == CellType.BombNeighbor) {
+                cell.isCovered = true;
+            }
+
+            if (cell.getCellType() == CellType.Empty) {
+                cell.isCovered = true;
+                while (!step.empty()) {
+                    int j = (Integer) step.pop();
+                    Cell cellNext = gameBoard[j / N_COLS][j % N_ROWS];
+                    if (cellNext.getCellType().equals(CellType.BombNeighbor)) {
+                        step.push(j);
+                        break;
+                    }
+                    else {
+                        cellNext.isCovered = true;
+                    }
+                }
+            }
+
+            repaint();
+        }
     }
 
     //show rules features
