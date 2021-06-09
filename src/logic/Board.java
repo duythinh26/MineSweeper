@@ -4,12 +4,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import java.util.Stack;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,13 +49,22 @@ public class Board extends JPanel implements ActionListener{
 
     private int allCells;
     private final JLabel status;
+    private static JButton undo;
+    private static JButton rule;
 
     protected static Cell[][] gameBoard;
     private Stack step = new Stack();
 
-    public Board(JLabel status) {
+    public Board(JLabel status, JButton undo, JButton rule) throws IOException{
 
         this.status = status;
+        
+        this.undo = undo;
+        this.undo.addActionListener(this);
+
+        this.rule = rule;
+        this.rule.addActionListener(this);
+
         initBoard();
     }
 
@@ -303,7 +314,15 @@ public class Board extends JPanel implements ActionListener{
             status.setText("You won!");
 
         } else if (!inGame) {
+            step.clear();
             status.setText("Game Over!");
+        }
+
+        if (step.empty()) {
+            this.undo.setEnabled(false);
+        } 
+        else {
+            this.undo.setEnabled(true);
         }
     }
 
