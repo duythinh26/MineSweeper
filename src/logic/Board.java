@@ -404,24 +404,20 @@ public class Board extends JPanel implements ActionListener{
     //show rules features
     private void showRules() {
         JOptionPane.showMessageDialog(null, "GAME RULES: \n" + "\n"
-        			+ "The goal is to sweep all the “mines” or bombs from a 30x30 mine field."
-        			+ " There are 100 in total. \n" + 
-        			"\n" + 
-        			"To obtain information on where the bomb is, left click to uncover the cells." +"\n" 
-        			+ " A cell with a number reveals the number of neighboring cells containing bombs. "+"\n" 
-        			+ "A cell that does not contain a bomb in its direct neighbor cells (the 8 most direct ones surrounding it)"+"\n" 
-        			+ " is an empty cell,"
-        			+ " and when clicked on, will reveal the entire region of all empty cells until a cell is no longer empty."+"\n" 
-        			+ " Use this information plus guess work to avoid the bombs. \n" + 
-        			"To mark a cell you think is a bomb, right-click on the cell and a flag will appear."+"\n" 
-        			+ "You have 40 flags in total, one for each bomb. "+"\n" 
-        			+ "You will be notified when you have used up all your 40 flags with a count of "+"\n" 
-        			+ "how many flags you have left in the lower left corner. \n" + 
-        			"The game is won when the user has successfully identified all the cells that"+"\n" 
-        			+ " contain bombs and the game is lost when the player clicks on a cell "+"\n" 
-        			+ "which contains a bomb. \n" +
-        			"The user can “unflag” a cell by right clicking the cell again."+"\n" 
-        			+ "The user can undo any number of moves for any type of move, which includes"+"\n" 
-        			+ " clicking on flagged cells, empty cells, and neighbor cells."+"\n");
+        			+ "The object of the game is to uncover the map without clicking on any mines."+
+        			"\n"
+        			+"Open a new game then left click randomly until you uncover some space and information to work with." +"\n" 
+        			+ "If you click on a mine, you lose the game."+"\n" 
+        			+ "Click on the undo button to start a new game."+"\n" 
+        			+ "A numbered square indicates how many mines are adjacent to that square"
+        			+ "Spaces not adjacent to any mines are blank, showing no number."+"\n" 
+        			+ "The lowest number is 1 and the highest is 8."+"\n" + 
+        			"Use the known information from the revealed numbers to figure out where the mines are located."+"\n" 
+        			+ "Right click to flag a spot you know where a mine is. "+"\n" 
+        			+ "Right click on a flagged to clear the mark."+"\n" 
+        			+ "You will be unable to accidentally left click a marked square. \n" + 
+        			"If you perform a right and left click simultaneously on a number that has the corresponding number of flags adjacent to it, it will open all the squares surrounding that number that don’t have flags."+"\n" 
+        			+ "Once all the mines have been properly marked and the rest of the board cleared, you win. "+"\n" 
+        			);
     }
 }
