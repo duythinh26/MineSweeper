@@ -1,5 +1,6 @@
 package minesweeper;
 import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -39,7 +40,16 @@ public class Minesweeper extends JFrame {
     }
 
     public static void main(String[] args) throws IOException {
-     	Minesweeper ms = new Minesweeper();
-    	ms.setVisible(true);
+
+        EventQueue.invokeLater(() -> {
+            Minesweeper ms;
+			try {
+				ms = new Minesweeper();
+                ms.setVisible(true);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+        });
     }
 }
