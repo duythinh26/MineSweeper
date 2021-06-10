@@ -1,5 +1,6 @@
 package logic;
 
+import gui.ImageName;
 import gui.SquareType;
 
 public class EmptySquare extends Square{
@@ -15,7 +16,12 @@ public class EmptySquare extends Square{
 	}
 
     @Override
-        public SquareType getSquareType() {
-            return this.squareType;
-        }
+    public SquareType getSquareType() {
+        return this.squareType;
+    }
+
+    @Override
+    public String getImageName() {
+        return ImageName.Empty.toString();
+    }
 }
