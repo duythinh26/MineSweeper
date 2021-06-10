@@ -12,7 +12,7 @@ public class NeighborBomb extends Square{
 	}
 	
 	
-	public NeighborBomb(String isCovered, String isMarked, int bombCellCount) {
+	public NeighborBomb(String isCovered, String isMarked, int bombSquareCount) {
 		super(isCovered, isMarked);
 		this.squareType = SquareType.BombNeighbor;
 		this.bombSquareCount = bombSquareCount;
@@ -20,7 +20,7 @@ public class NeighborBomb extends Square{
 	
 	//want to call this function when initializing board, which automatically  
 	@Override
-        public void squareCount() {
+    public void squareCount() {
 		this.bombSquareCount ++;
 	}
         
@@ -28,4 +28,9 @@ public class NeighborBomb extends Square{
     public SquareType getSquareType() {
         return this.squareType;
     }
+
+	@Override
+	public String getImageName(){
+		return Integer.toString(bombSquareCount);
+	}
 }
