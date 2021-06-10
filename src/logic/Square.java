@@ -1,6 +1,6 @@
 package logic;
 
-import gui.CellType;
+import gui.SquareType;
 
 public class Square {
     private boolean isOpen;
@@ -8,7 +8,7 @@ public class Square {
     private boolean isTarget;
     private int numMineAround;
     protected boolean isCovered = true;
-    protected CellType cellType = CellType.Empty;
+    protected SquareType squareType = SquareType.Empty;
     protected boolean isMarked = false;
 
     public Square(String isCovered, String isMarked) {
@@ -67,15 +67,15 @@ public class Square {
 		this.isCovered = false;
 	}
 	
-	public CellType getCellType() {
-		return this.cellType;
+	public SquareType getSquareType() {
+		return this.squareType;
 	}
 	
-	public boolean isCoveredCell() {
+	public boolean isCoveredSquare() {
 		return this.isCovered;
 	}
 	
-	public boolean isMarkedCell() {
+	public boolean isMarkedSquare() {
 		return this.isMarked;
 	}
 	
