@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -35,9 +36,9 @@ public class Board extends JPanel implements ActionListener{
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    public static final int N_MINES = 100;
-    public static final int N_ROWS = 30;
-    public static final int N_COLS = 30;
+    public static int N_MINES = 100;
+    public static int N_ROWS = 30;
+    public static int N_COLS = 30;
 
     private final int BOARD_WIDTH = N_ROWS * CELL_SIZE + 1;
     private final int BOARD_HEIGHT = N_COLS * CELL_SIZE + 1;
@@ -50,12 +51,12 @@ public class Board extends JPanel implements ActionListener{
     private static JButton undo;
     private static JButton rule;
 
-    private java.util.Map<String, Image> img;
+    private java.util.Map<String, Image> images;
 
     protected static Square[][] field;
     private Stack step = new Stack();
 
-    public Board(JLabel status, JButton undo, JButton rule) {   
+    public Board(JLabel status, JButton undo, JButton rule) throws IOException {   
 
         this.status = status;
         
@@ -71,21 +72,29 @@ public class Board extends JPanel implements ActionListener{
     private void initBoard() {
 
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
-        img = new java.util.HashMap<>();
+        images = new java.util.HashMap<>();
 
-        for (int i = 0; i < NUM_IMAGES; i++) {
-            var path = "C:/src/resources/" + i + ".png";
-            img.put(Integer.toString(i), (new ImageIcon(path)).getImage());
+        for (int i = 1; i < 8; i++) {
+            String path = "resources/" + i + ".png";
+            images.put(Integer.toString(i), (new ImageIcon(path)).getImage());
         }
 
+        images.put("Bomb", (new ImageIcon("resources/9.png")).getImage());
+        images.put("Covered", (new ImageIcon("resources/10.png")).getImage());
+        images.put("Empty", (new ImageIcon("resources/0.png")).getImage());
+        images.put("Marked", (new ImageIcon("resources/11.png")).getImage());
+        images.put("Wrongmarked", (new ImageIcon("resources/12.png")).getImage());
+
         addMouseListener(new MinesAdapter());
+
         showRules();
+
         newGame();
     }
 
     private void newGame() {
 
-        var random = new Random();
+        Random random = new Random();
         inGame = true;
         minesLeft = N_MINES;
 
@@ -106,8 +115,8 @@ public class Board extends JPanel implements ActionListener{
 
         while (i < N_MINES) {
 
-            int positionX = (int) (random.nextDouble());
-            int positionY = (int) (random.nextDouble());
+            int positionX = (int) (random.nextInt(N_ROWS));
+            int positionY = (int) (random.nextInt(N_COLS));
 
             if (field[positionX][positionY].getSquareType() != SquareType.Bomb) {
 
@@ -153,9 +162,11 @@ public class Board extends JPanel implements ActionListener{
                     && y + dy >= 0) {
                             
         			    SquareType typeOfSquare = field[x + dx][y + dy].getSquareType();
-
-                        if (typeOfSquare == SquareType.Empty 
-                            && field[x + dx][y + dy].isCoveredSquare()) {
+                        
+                        if(typeOfSquare == SquareType.BombNeighbor && field[x + dx][y + dy].isCoveredSquare()) {
+                            field[x + dx][y + dy].flipUp();
+                        }
+                        else if (typeOfSquare == SquareType.Empty && field[x + dx][y + dy].isCoveredSquare()) {
                                 find_empty_cells(x + dx, y + dy);
                         }
                 }
@@ -210,7 +221,7 @@ public class Board extends JPanel implements ActionListener{
                     }
                 }
 
-                g.drawImage(img.get(imgName), (j * CELL_SIZE),
+                g.drawImage(images.get(imgName), (j * CELL_SIZE),
                         (i * CELL_SIZE), this);
             }
         }
@@ -334,8 +345,8 @@ public class Board extends JPanel implements ActionListener{
                 this.undo();
             }
         }
-        catch (Exception oe) {
-            oe.printStackTrace();
+        catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
     
@@ -344,11 +355,11 @@ public class Board extends JPanel implements ActionListener{
         if (!step.empty()) {
             int i = (Integer) step.pop();
 
-            Square cell = field[i / N_COLS][i % N_ROWS];
+            Square square = field[i / N_COLS][i % N_ROWS];
 
-            if (cell.isCoveredSquare()) {
-                cell.changeWhetherMarked();
-                if (cell.isMarkedSquare()) {
+            if (square.isCoveredSquare()) {
+                square.changeWhetherMarked();
+                if (square.isMarkedSquare()) {
                     minesLeft = minesLeft - 1;
                 }
                 else {
@@ -359,26 +370,29 @@ public class Board extends JPanel implements ActionListener{
                 }
             }
 
-            else if (cell.getSquareType() == SquareType.Bomb) {
-                cell.isCovered = true;
+            else if (square.getSquareType() == SquareType.Bomb) {
+                square.isCovered = true;
                 inGame = true;
             }
 
-            else if (cell.getSquareType() == SquareType.BombNeighbor) {
-                cell.isCovered = true;
+            else if (square.getSquareType() == SquareType.BombNeighbor) {
+                square.isCovered = true;
             }
 
-            if (cell.getSquareType() == SquareType.Empty) {
-                cell.isCovered = true;
+            String msg = Integer.toString(minesLeft);
+            this.status.setText("Flags left: " + msg);
+
+            if (square.getSquareType() == SquareType.Empty) {
+                square.isCovered = true;
                 while (!step.empty()) {
                     int j = (Integer) step.pop();
-                    Square cellNext = field[j / N_COLS][j % N_ROWS];
-                    if (cellNext.getSquareType().equals(SquareType.BombNeighbor)) {
+                    Square squareNext = field[j / N_COLS][j % N_ROWS];
+                    if (squareNext.getSquareType().equals(SquareType.BombNeighbor)) {
                         step.push(j);
                         break;
                     }
                     else {
-                        cellNext.isCovered = true;
+                        squareNext.isCovered = true;
                     }
                 }
             }
