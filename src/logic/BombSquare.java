@@ -1,5 +1,6 @@
 package logic;
 
+import gui.ImageName;
 import gui.SquareType;
 
 public class BombSquare extends Square{
@@ -17,5 +18,9 @@ public class BombSquare extends Square{
     @Override
     public SquareType getSquareType() {
         return this.squareType;
+    }
+    @Override
+    public String getImageName() {
+        return ImageName.Bomb.toString();
     }
 }
