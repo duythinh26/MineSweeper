@@ -1,5 +1,6 @@
 package logic;
 
+import gui.ImageName;
 import gui.SquareType;
 
 public class Square {
@@ -30,6 +31,12 @@ public class Square {
             this.isMarked = false;
         }
     }
+
+    public Square() {
+    }
+
+    public void squareCount() {
+	}
 
     public boolean isOpen() {
         return isOpen;
@@ -82,4 +89,8 @@ public class Square {
 	public void changeWhetherMarked() {
 		this.isMarked = !isMarked;
 	}
+
+    public String getImageName() {
+        return ImageName.Covered.toString();
+    }
 }
