@@ -1,15 +1,34 @@
 package logic;
 
+import gui.CellType;
+
 public class Square {
     private boolean isOpen;
     private boolean hasMine;
     private boolean isTarget;
     private int numMineAround;
+    protected boolean isCovered = true;
+    protected CellType cellType = CellType.Empty;
+    protected boolean isMarked = false;
 
-    public Square() {
+    public Square(String isCovered, String isMarked) {
         isOpen = false;
         hasMine = false;
         isTarget = false;
+
+        if(isCovered.equals("true")) {
+            this.isCovered = true;
+        }
+        else {
+            this.isCovered = false;
+        }
+        
+        if(isMarked.equals("true")) {
+            this.isMarked = true;
+        }
+        else {
+            this.isMarked = false;
+        }
     }
 
     public boolean isOpen() {
@@ -43,4 +62,24 @@ public class Square {
     public void setNumMineAround(int numMineAround) {
         this.numMineAround = numMineAround;
     }
+
+    public void flipUp() {
+		this.isCovered = false;
+	}
+	
+	public CellType getCellType() {
+		return this.cellType;
+	}
+	
+	public boolean isCoveredCell() {
+		return this.isCovered;
+	}
+	
+	public boolean isMarkedCell() {
+		return this.isMarked;
+	}
+	
+	public void changeWhetherMarked() {
+		this.isMarked = !isMarked;
+	}
 }
