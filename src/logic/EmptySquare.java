@@ -3,11 +3,11 @@ package logic;
 import gui.ImageName;
 import gui.SquareType;
 
-public class EmptySquare extends Square{
+public class EmptySquare extends Square {
     
     public EmptySquare() {
         super();
-        this.squareType = squareType;
+        this.squareType = SquareType.Empty;
     }
 
     public EmptySquare(String isCovered, String isMarked) {
