@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -39,8 +38,8 @@ public class Board extends JPanel implements ActionListener{
     public static final int N_ROWS = 30;
     public static final int N_COLS = 30;
 
-    private final int BOARD_WIDTH = N_COLS * CELL_SIZE + 1;
-    private final int BOARD_HEIGHT = N_ROWS * CELL_SIZE + 1;
+    private final int BOARD_WIDTH = N_ROWS * CELL_SIZE + 1;
+    private final int BOARD_HEIGHT = N_COLS * CELL_SIZE + 1;
 
     private int[] field;
     private boolean inGame;
@@ -52,10 +51,10 @@ public class Board extends JPanel implements ActionListener{
     private static JButton undo;
     private static JButton rule;
 
-    protected static Cell[][] gameBoard;
+    protected static Square[][] gameBoard;
     private Stack step = new Stack();
 
-    public Board(JLabel status, JButton undo, JButton rule) throws IOException{
+    public Board(JLabel status, JButton undo, JButton rule) {   
 
         this.status = status;
         
@@ -79,8 +78,8 @@ public class Board extends JPanel implements ActionListener{
         }
 
         addMouseListener(new MinesAdapter());
-        newGame();
         showRules();
+        newGame();
     }
 
     private void newGame() {
@@ -178,6 +177,8 @@ public class Board extends JPanel implements ActionListener{
 
         int current_col = j % N_COLS;
         int cell;
+
+        step.push(j *N_COLS + 1);
 
         if (current_col > 0) {
             cell = j - N_COLS - 1;
@@ -364,6 +365,8 @@ public class Board extends JPanel implements ActionListener{
                             } else {
                                 status.setText("No marks left");
                             }
+
+                            step.push(cRow * N_COLS + cCol);
                         } else {
 
                             field[(cRow * N_COLS) + cCol] -= MARK_FOR_CELL;
@@ -385,6 +388,8 @@ public class Board extends JPanel implements ActionListener{
 
                         field[(cRow * N_COLS) + cCol] -= COVER_FOR_CELL;
                         doRepaint = true;
+
+                        step.push(cRow * N_COLS + cCol);
 
                         if (field[(cRow * N_COLS) + cCol] == MINE_CELL) {
                             inGame = false;
@@ -423,7 +428,7 @@ public class Board extends JPanel implements ActionListener{
         if (!step.empty()) {
             int i = (Integer) step.pop();
 
-            Cell cell = gameBoard[i / N_COLS][i % N_ROWS];
+            Square cell = gameBoard[i / N_COLS][i % N_ROWS];
 
             if (cell.isCoveredCell()) {
                 cell.changeWhetherMarked();
@@ -451,7 +456,7 @@ public class Board extends JPanel implements ActionListener{
                 cell.isCovered = true;
                 while (!step.empty()) {
                     int j = (Integer) step.pop();
-                    Cell cellNext = gameBoard[j / N_COLS][j % N_ROWS];
+                    Square cellNext = gameBoard[j / N_COLS][j % N_ROWS];
                     if (cellNext.getCellType().equals(CellType.BombNeighbor)) {
                         step.push(j);
                         break;
