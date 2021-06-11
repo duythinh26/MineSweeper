@@ -1,8 +1,7 @@
 package minesweeper;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.io.IOException;
 
+import java.awt.BorderLayout;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,6 +9,7 @@ import javax.swing.JPanel;
 import logic.Board;
 
 public class Minesweeper extends JFrame {
+
     private JLabel status;
     private JPanel buttonPanel;
     private JButton undoButton;
@@ -17,6 +17,7 @@ public class Minesweeper extends JFrame {
     protected Board board;
 
     public Minesweeper() throws IOException {
+
         buttonPanel = new JPanel();
         undoButton = new JButton("Undo");
         rulesButton = new JButton("Rules");
@@ -41,15 +42,14 @@ public class Minesweeper extends JFrame {
 
     public static void main(String[] args) throws IOException {
 
-        EventQueue.invokeLater(() -> {
-            Minesweeper ms;
-			try {
-				ms = new Minesweeper();
-                ms.setVisible(true);
+        try {
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        });
+            Minesweeper ms = new Minesweeper();
+            ms.setVisible(true);
+        } 
+        catch (IOException e) {
+
+            e.printStackTrace();
+        }
     }
 }
