@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import gui.ImageName;
 import gui.SquareType;
 
-public class Board extends JPanel implements ActionListener{
+public class Board extends JPanel implements ActionListener {
 
     private final int NUM_IMAGES = 8;
     private final int CELL_SIZE = 15;
@@ -111,19 +111,23 @@ public class Board extends JPanel implements ActionListener{
                 field[positionX][positionY] = new BombSquare();
 
                 for (int x = -1; x <= 1; x++) {
-                    for (int y = -1; y <= 1; y++) {
+                    for (int y = -1; y <= 1; y++) 
+                    {
                         if ((x != 0 || y != 0) 
                             && positionX + x < N_COLS 
                             && positionY + y < N_ROWS 
-                            && positionX + x >= 0 && positionY + y >=0) {
+                            && positionX + x >= 0 && positionY + y >=0) 
+                            {
                                 SquareType typeOfSquare = field[positionX + x][positionY + y].getSquareType();
                                 if (typeOfSquare != SquareType.Bomb) {
-                                    if (typeOfSquare != SquareType.BombNeighbor) {
+                                    if (typeOfSquare != SquareType.BombNeighbor) 
+                                    {
                                         NeighborBomb neighbor = new NeighborBomb();
                                         neighbor.squareCount();
                                         field[positionX + x][positionY + y] = neighbor;
                                     }
                                     else {
+
                                         field[positionX + x][positionY + y].squareCount();
                                     }
                                 }
@@ -143,6 +147,7 @@ public class Board extends JPanel implements ActionListener{
         
         for(int dx = -1; dx <= 1; dx++) {
         	for(int dy = -1; dy <= 1; dy++) {
+
         		if((dx != 0 || dy != 0) 
                     && x + dx < N_COLS 
                     && y + dy < N_ROWS 
@@ -152,9 +157,11 @@ public class Board extends JPanel implements ActionListener{
         			    SquareType typeOfSquare = field[x + dx][y + dy].getSquareType();
                         
                         if(typeOfSquare == SquareType.BombNeighbor && field[x + dx][y + dy].isCoveredSquare()) {
+
                             field[x + dx][y + dy].flipUp();
                         }
                         else if (typeOfSquare == SquareType.Empty && field[x + dx][y + dy].isCoveredSquare()) {
+
                                 find_empty_cells(x + dx, y + dy);
                         }
                 }
@@ -184,16 +191,20 @@ public class Board extends JPanel implements ActionListener{
                 if (!inGame) {
 
                     if (square.getSquareType() == SquareType.Bomb && !square.isMarkedSquare()) {
+
                         square.flipUp();
                         imgName = ImageName.Bomb.toString();
                     } 
                     else if (square.isCoveredSquare() && square.getSquareType() == SquareType.Bomb && square.isMarkedSquare()) {
+                        
                         imgName = ImageName.Marked.toString();
                     } 
                     else if (square.isCoveredSquare() && square.getSquareType() != SquareType.Bomb && square.isMarkedSquare()) {//wrongly marked squares
+                        
                         imgName = ImageName.Wrongmarked.toString();
                     } 
                     else if (square.isCoveredSquare()) {
+                        
                         imgName = ImageName.Covered.toString();
                     }
 
@@ -201,16 +212,17 @@ public class Board extends JPanel implements ActionListener{
                 else {
 
                     if (square.isMarkedSquare()) {
-                    	imgName = ImageName.Marked.toString();
+                    	
+                        imgName = ImageName.Marked.toString();
                     } 
                     else if (square.isCoveredSquare()) {
-                    	imgName = ImageName.Covered.toString();
+                    	
+                        imgName = ImageName.Covered.toString();
                         uncover++;
                     }
                 }
 
-                g.drawImage(images.get(imgName), (j * CELL_SIZE),
-                        (i * CELL_SIZE), this);
+                g.drawImage(images.get(imgName), (j * CELL_SIZE), (i * CELL_SIZE), this);
             }
         }
 
@@ -220,14 +232,17 @@ public class Board extends JPanel implements ActionListener{
             status.setText("You won!");
 
         } else if (!inGame) {
+
             step.clear();
             status.setText("Game Over!");
         }
 
         if (step.empty()) {
+
             this.undo.setEnabled(false);
         } 
         else {
+
             this.undo.setEnabled(true);
         }
     }
@@ -268,10 +283,12 @@ public class Board extends JPanel implements ActionListener{
                                 minesLeft = minesLeft - 1;
 
                                 if (minesLeft > 0) {
+
                                     String msg = Integer.toString(minesLeft);
                                     status.setText(msg);
                                 } 
                                 else {
+                                    
                                     status.setText("No marks left");
                                 }
 
