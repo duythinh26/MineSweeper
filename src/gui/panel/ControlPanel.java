@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 import gui.ICommon;
 import gui.ITrans;
 import logic.Board;
  
 public class ControlPanel extends JPanel implements ICommon {
+
   private static final long serialVersionUID = 3141592653589793L;
   public static final boolean WIN = true;
   public static final boolean LOSE = false;
@@ -21,6 +23,7 @@ public class ControlPanel extends JPanel implements ICommon {
   private ITrans listener;
  
   public ControlPanel() {
+
     initComp();
     addComp();
     addEvent();
@@ -28,11 +31,13 @@ public class ControlPanel extends JPanel implements ICommon {
  
   @Override
   public void initComp() {
+
     setLayout(null);
   }
  
   @Override
   public void addComp() {
+
     Font font = new Font("Dialog", Font.PLAIN, 20);
  
     lbNumSquareClosed = new JLabel();
@@ -55,9 +60,12 @@ public class ControlPanel extends JPanel implements ICommon {
  
   @Override
   public void addEvent() {
+
     btRestart.addActionListener(new ActionListener() {
+
       @Override
       public void actionPerformed(ActionEvent e) {
+
         listener.restart();
         lbNumSquareClosed.setText("Number of closed cells: " + Board.N_ROWS*Board.N_COLS);
         lbNotify.setText("");
@@ -66,15 +74,21 @@ public class ControlPanel extends JPanel implements ICommon {
   }
  
   public void addListener(ITrans event) {
+
     listener = event;
   }
  
   public void updateStatus(int numSquareClosed) {
+
     lbNumSquareClosed.setText("Number of closed cells: " + numSquareClosed);
+
     if (numSquareClosed == Board.N_MINES) {
+
       lbNotify.setText("YOU WIN");
       lbNotify.setForeground(Color.blue);
-    } else if (numSquareClosed == 0) {
+    } 
+    else if (numSquareClosed == 0) {
+
       lbNotify.setText("YOU LOSE");
       lbNotify.setForeground(Color.red);
     }
