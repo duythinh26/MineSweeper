@@ -149,6 +149,7 @@ public class Board extends JPanel implements ActionListener {
 
         field[x][y].flipUp();
 
+        //add step into the stack
         step.push(x *N_COLS + y);
         
         for(int dx = -1; dx <= 1; dx++) {
@@ -234,17 +235,22 @@ public class Board extends JPanel implements ActionListener {
             }
         }
 
+        //when you win
         if (uncover == 0 && inGame) {
 
             inGame = false;
             status.setText("You won!");
 
-        } else if (!inGame) {
+        }
 
+        //when you lost 
+        else if (!inGame) {
+            //clear all data in the Stack so no more undo 
             step.clear();
             status.setText("Game Over!");
         }
 
+        //if user undos all, the undo function will not work
         if (step.empty()) {
 
             this.undo.setEnabled(false);
@@ -376,6 +382,7 @@ public class Board extends JPanel implements ActionListener {
 
         if (!step.empty()) {
 
+            //get the game steps that can used to undo
             int i = (Integer) step.pop();
 
             Square square = field[i / N_COLS][i % N_ROWS];
