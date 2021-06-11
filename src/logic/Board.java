@@ -44,6 +44,7 @@ public class Board extends JPanel implements ActionListener {
     protected static Square[][] field;
     private Stack step = new Stack();
 
+    //constructor
     public Board(JLabel status, JButton undo, JButton rule) throws IOException {   
 
         this.status = status;
@@ -57,11 +58,13 @@ public class Board extends JPanel implements ActionListener {
         initBoard();
     }
 
+    //Initializes the game board
     private void initBoard() {
 
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
         images = new java.util.HashMap<>();
 
+        //put all images in the map
         for (int i = 1; i < NUM_IMAGES; i++) {
             String path = "resources/" + i + ".png";
             images.put(Integer.toString(i), (new ImageIcon(path)).getImage());
@@ -80,6 +83,7 @@ public class Board extends JPanel implements ActionListener {
         newGame();
     }
 
+    //set up game
     private void newGame() {
 
         Random random = new Random();
@@ -101,27 +105,29 @@ public class Board extends JPanel implements ActionListener {
 
         int i = 0;
 
+        //set up the grid
         while (i < N_MINES) {
 
             int positionX = (int) (random.nextInt(N_ROWS));
             int positionY = (int) (random.nextInt(N_COLS));
 
+            //random bomb place
             if (field[positionX][positionY].getSquareType() != SquareType.Bomb) {
 
                 field[positionX][positionY] = new BombSquare();
 
                 for (int x = -1; x <= 1; x++) {
-                    for (int y = -1; y <= 1; y++) 
-                    {
+                    for (int y = -1; y <= 1; y++) {
+
                         if ((x != 0 || y != 0) 
                             && positionX + x < N_COLS 
                             && positionY + y < N_ROWS 
-                            && positionX + x >= 0 && positionY + y >=0) 
-                            {
+                            && positionX + x >= 0 && positionY + y >=0) {
+
                                 SquareType typeOfSquare = field[positionX + x][positionY + y].getSquareType();
                                 if (typeOfSquare != SquareType.Bomb) {
-                                    if (typeOfSquare != SquareType.BombNeighbor) 
-                                    {
+                                    if (typeOfSquare != SquareType.BombNeighbor) {
+
                                         NeighborBomb neighbor = new NeighborBomb();
                                         neighbor.squareCount();
                                         field[positionX + x][positionY + y] = neighbor;
@@ -181,6 +187,7 @@ public class Board extends JPanel implements ActionListener {
                 Square square = field[i][j];
                 String imgName = square.getImageName(); 
 
+                //when click on mine, game over
                 if (inGame 
                     && square.getSquareType() == SquareType.Bomb 
                     && !square.isCoveredSquare()) {
@@ -188,6 +195,7 @@ public class Board extends JPanel implements ActionListener {
                     inGame = false;
                 }
 
+                //when the game is over
                 if (!inGame) {
 
                     if (square.getSquareType() == SquareType.Bomb && !square.isMarkedSquare()) {
