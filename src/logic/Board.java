@@ -288,7 +288,7 @@ public class Board extends JPanel implements ActionListener {
                                     status.setText(msg);
                                 } 
                                 else {
-                                    
+
                                     status.setText("No marks left");
                                 }
 
@@ -323,17 +323,20 @@ public class Board extends JPanel implements ActionListener {
                         //if user clicks on mine, game is over
                         if (field[cRow][cCol].getSquareType() == SquareType.Bomb
                         		&& !field[cRow][cCol].isCoveredSquare()) {
+
                             inGame = false;
                         }
                         
                         //if user clicks on empty cell, call empty cell function which will handle the situation
                         if (field[cRow][cCol].getSquareType() == SquareType.Empty) {
+
                             find_empty_cells(cRow, cCol);
                         }
                     }
                 }
 
                 if (doRepaint) {
+
                     repaint();
                 }
             }
@@ -342,45 +345,58 @@ public class Board extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         try {
+
             if (e.getActionCommand().equals("Rules")) {
+
             	showRules();
             }
             else if (e.getActionCommand().equals("Undo")) {
+
                 this.undo();
             }
         }
         catch (Exception exception) {
+
             exception.printStackTrace();
         }
     }
     
     //undo features
     private void undo() {
+
         if (!step.empty()) {
+
             int i = (Integer) step.pop();
 
             Square square = field[i / N_COLS][i % N_ROWS];
 
             if (square.isCoveredSquare()) {
+
                 square.changeWhetherMarked();
                 if (square.isMarkedSquare()) {
-                    minesLeft = minesLeft - 1;
+
+                    minesLeft--;
                 }
                 else {
-                    minesLeft = minesLeft + 1;
+
+                    minesLeft++;
                     if (!inGame) {
+
                         inGame = true;
                     }
                 }
             }
 
             else if (square.getSquareType() == SquareType.Bomb) {
+
                 square.isCovered = true;
                 inGame = true;
             }
 
             else if (square.getSquareType() == SquareType.BombNeighbor) {
+
                 square.isCovered = true;
             }
 
@@ -388,15 +404,19 @@ public class Board extends JPanel implements ActionListener {
             this.status.setText("Flags left: " + msg);
 
             if (square.getSquareType() == SquareType.Empty) {
+
                 square.isCovered = true;
                 while (!step.empty()) {
+
                     int j = (Integer) step.pop();
                     Square squareNext = field[j / N_COLS][j % N_ROWS];
                     if (squareNext.getSquareType().equals(SquareType.BombNeighbor)) {
+
                         step.push(j);
                         break;
                     }
                     else {
+
                         squareNext.isCovered = true;
                     }
                 }
@@ -408,6 +428,7 @@ public class Board extends JPanel implements ActionListener {
 
     //show rules features
     private void showRules() {
+        
         JOptionPane.showMessageDialog(null, "GAME RULES: \n" + "\n"
         			+ "The object of the game is to uncover the map without clicking on any mines."+
         			"\n"
