@@ -21,20 +21,8 @@ import gui.SquareType;
 
 public class Board extends JPanel implements ActionListener{
 
-    private final int NUM_IMAGES = 13;
+    private final int NUM_IMAGES = 8;
     private final int CELL_SIZE = 15;
-
-    private final int COVER_FOR_CELL = 10;
-    private final int MARK_FOR_CELL = 10;
-    private final int EMPTY_CELL = 0;
-    private final int MINE_CELL = 9;
-    private final int COVERED_MINE_CELL = MINE_CELL + COVER_FOR_CELL;
-    private final int MARKED_MINE_CELL = COVERED_MINE_CELL + MARK_FOR_CELL;
-
-    private final int DRAW_MINE = 9;
-    private final int DRAW_COVER = 10;
-    private final int DRAW_MARK = 11;
-    private final int DRAW_WRONG_MARK = 12;
 
     public static int N_MINES = 100;
     public static int N_ROWS = 30;
@@ -74,7 +62,7 @@ public class Board extends JPanel implements ActionListener{
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
         images = new java.util.HashMap<>();
 
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < NUM_IMAGES; i++) {
             String path = "resources/" + i + ".png";
             images.put(Integer.toString(i), (new ImageIcon(path)).getImage());
         }
